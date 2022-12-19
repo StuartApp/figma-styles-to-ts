@@ -68,10 +68,16 @@ class ColorTemplateDefault extends ColorTemplate {
 	}
 
 	_formatToCode(container: any): string {
-		const colors = JSON.stringify(container, null, 4).replace(
-			/"([^"])+":/g,
-			(match) => match.slice(1, match.length - 2) + ":"
-		);
+		/**
+		 * This code was changed from the original
+		 * We've removed `replace` function because it was removing the quotes. If you have a property name with space or dash ir would be an invalid key.
+		 */
+		const colors = JSON.stringify(container, null, 4);
+		// Original code:
+		// const colors = JSON.stringify(container, null, 4).replace(
+		// 	/"([^"])+":/g,
+		// 	(match) => match.slice(1, match.length - 2) + ":"
+		// );
 		const colors_interface = colors.replace(/: "([^"])+"/g, ": Color");
 
 		return `export type Color = string;
